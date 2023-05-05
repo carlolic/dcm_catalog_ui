@@ -4,8 +4,10 @@ module  namespace filter="http://kb.dk/this/app/filter";
 
 import module namespace  forms="http://kb.dk/this/formutils" at "./form_utils.xqm";
 import module namespace  list="http://kb.dk/this/listapp" at "./list_utils.xqm";
+import module namespace  config="https://github.com/peterstadler/dcm_catalog_ui/config" at "./config.xqm";
 declare namespace m="http://www.music-encoding.org/ns/mei";
 declare namespace h="http://www.w3.org/1999/xhtml";
+declare namespace request="http://exist-db.org/xquery/request";
 
 declare variable $filter:anthologies := request:get-parameter("anthologies","") cast as xs:string;
 declare variable $filter:sortby      := request:get-parameter("sortby", "null,work_number") cast as xs:string;
@@ -14,11 +16,11 @@ declare variable $filter:number      := request:get-parameter("itemsPerPage","20
 declare variable $filter:genre       := request:get-parameter("genre", "") cast as xs:string;
 declare variable $filter:uri         := "";
 declare variable $filter:coll        := request:get-parameter("c","") cast as xs:string;
-declare variable $filter:identifiers := doc("/db/cat-site/collections.xml");
+declare variable $filter:identifiers := doc(concat($config:cat-site-root,"/collections.xml"));
 declare variable $filter:collection   := $filter:identifiers//*[m:title=$filter:coll]/m:identifier;
-declare variable $filter:vocabulary  := doc(concat("/db/cat-site/",$filter:coll,"/keywords.xml"));
-declare variable $filter:numnam      := doc(concat("/db/cat-site/",$filter:coll,"/select.xml"));
-declare variable $filter:settings    := doc(concat("/db/cat-site/",$filter:coll,"/filter_settings.xml"));
+declare variable $filter:vocabulary  := doc(concat($config:cat-site-root,"/",$filter:coll,"/keywords.xml"));
+declare variable $filter:numnam      := doc(concat($config:cat-site-root,"/",$filter:coll,"/select.xml"));
+declare variable $filter:settings    := doc(concat($config:cat-site-root,"/",$filter:coll,"/filter_settings.xml"));
 declare variable $filter:scheme      := request:get-parameter("scheme", upper-case($filter:coll)) cast as xs:string;
 
 declare function filter:print-filters(

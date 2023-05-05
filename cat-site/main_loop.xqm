@@ -1,6 +1,10 @@
 xquery version "1.0" encoding "UTF-8";
 
 module  namespace loop="http://kb.dk/this/getlist";
+
+import module namespace config="https://github.com/peterstadler/dcm_catalog_ui/config" at "./config.xqm";
+
+declare namespace request="http://exist-db.org/xquery/request";
 declare namespace fn="http://www.w3.org/2005/xpath-functions";
 declare namespace m="http://www.music-encoding.org/ns/mei";
 declare namespace ft="http://exist-db.org/xquery/lucene";
@@ -10,9 +14,9 @@ declare namespace filter="http://kb.dk/this/app/filter";
 declare variable $loop:sortby       := "null,work_number";
 
 declare variable $loop:coll         := request:get-parameter("c","") cast as xs:string;
-declare variable $loop:vocabulary   := doc(concat("/db/cat-site/",$loop:coll,"/keywords.xml"));
+declare variable $loop:vocabulary   := doc(concat($config:cat-site-root,"/",$loop:coll,"/keywords.xml"));
 
-declare variable $loop:identifiers := doc("/db/cat-site/collections.xml");
+declare variable $loop:identifiers := doc(concat($config:cat-site-root,"/collections.xml"));
 (:declare variable $loop:collection   := upper-case($loop:coll);:)
 declare variable $loop:collection   := $loop:identifiers//*[m:title=$loop:coll]/m:identifier;
 

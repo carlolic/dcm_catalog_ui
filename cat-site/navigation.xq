@@ -1,23 +1,20 @@
-xquery version "1.0" encoding "UTF-8";
-
-declare namespace xl="http://www.w3.org/1999/xlink";
+xquery version "3.0" encoding "UTF-8";
 
 declare namespace response="http://exist-db.org/xquery/response";
 declare namespace fn="http://www.w3.org/2005/xpath-functions";
-declare namespace file="http://exist-db.org/xquery/file";
 declare namespace util="http://exist-db.org/xquery/util";
 declare namespace ft="http://exist-db.org/xquery/lucene";
 declare namespace ht="http://exist-db.org/xquery/httpclient";
 declare namespace m="http://www.music-encoding.org/ns/mei";
 declare namespace h="http://www.w3.org/1999/xhtml";
 declare namespace local="http://kb.dk/this/app";
-
 declare namespace request="http://exist-db.org/xquery/request";
 
 import module namespace loop="http://kb.dk/this/getlist" at "./main_loop.xqm";
 import module namespace app="http://kb.dk/this/listapp" at "./list_utils.xqm";
 import module namespace filter="http://kb.dk/this/app/filter" at "./filter_utils.xqm";
 import module namespace layout="http://kb.dk/this/app/layout" at "./layout.xqm";
+import module namespace config="https://github.com/peterstadler/dcm_catalog_ui/config" at "./config.xqm";
 
 declare option exist:serialize "method=xml media-type=text/html"; 
 
@@ -28,10 +25,10 @@ declare variable $page   := request:get-parameter("page", "1") cast as xs:intege
 declare variable $number := request:get-parameter("itemsPerPage","20") cast as xs:integer;
 declare variable $mode   := request:get-parameter("mode","navigation") cast as xs:string;
 
-declare variable $vocabulary  := doc(concat("/db/cat-site/",$coll,"/keywords.xml"));
+declare variable $vocabulary  := doc(concat($config:cat-site-root,"/",$coll,"/keywords.xml"));
 (: declare variable $database := concat("/db/cat-site/",$coll,"/data"); :)
 declare variable $database := concat("/db/data-",$coll);
-declare variable $html     := doc(concat("/db/cat-site/",$coll,"/navigation.html"));
+declare variable $html     := doc(concat($config:cat-site-root,"/",$coll,"/navigation.html"));
 declare variable $from     := ($page - 1) * $number + 1;
 declare variable $to       :=  $from      + $number - 1;
 

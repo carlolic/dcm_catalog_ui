@@ -1,6 +1,10 @@
 xquery version "1.0" encoding "UTF-8";
 
 module  namespace  layout="http://kb.dk/this/app/layout";
+
+import module namespace config="https://github.com/peterstadler/dcm_catalog_ui/config" at "./config.xqm";
+
+declare namespace  request="http://exist-db.org/xquery/request";
 declare namespace  h="http://www.w3.org/1999/xhtml";
 declare namespace  m="http://www.music-encoding.org/ns/mei";
 
@@ -128,7 +132,7 @@ declare function layout:page-menu($mode as xs:string) as node()
 
   let $menudoc  :=
   <div id="menu" class="noprint"> {
-  for $anchor in doc(concat("/db/cat-site/",$layout:coll,"/menu.html"))/div/a
+  for $anchor in doc(concat($config:cat-site-root,"/",$layout:coll,"/menu.html"))/div/a
     return 
       if(contains($anchor/@href,$mode)) then
 	<a href="{$anchor/@href}" class="selected">{$anchor/text()}</a>
