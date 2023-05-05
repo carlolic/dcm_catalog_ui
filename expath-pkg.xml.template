@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://expath.org/ns/pkg" name="https://github.com/peterstadler/dcm_catalog_ui" abbrev="dcm_catalog_ui"
+    version="@repository.version@" spec="1.0">
+    <title>End user interface for catalogs created using the MerMEId cataloging tool</title>
+    <dependency processor="http://exist-db.org" semver-min="5.0.0"/>
+</package>

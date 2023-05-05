@@ -1,61 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="all" name="catalog-ui">
 
-    <property file="build.properties"/>
+  <property file="build.properties"/>
 
-    <property name="build" value="build"/>
-    <property name="service.src" value="./cat-site"/>
-    <property name="install" value="css,db,eot,gif,html,js,otf,png,jpg,svg,ttf,woff,xml,xq,xqm,xsl"/>
-    <property name="hostport" value="localhost:8080"/>
+  <property name="build.dir" value="build"/>
+  <property name="service.src" value="./cat-site"/>
+  <property name="install" value="css,db,eot,gif,html,js,otf,png,jpg,svg,ttf,woff,xml,xq,xqm,xsl"/>
+  <property name="hostport" value="localhost:8080"/>
 
-    <property name="xconfig"     value="system/config/db/cat-site"/>
-    <property name="xconfig_source" value="${build}/system/config/db/cat-site"/>
-    <property name="xconfig_source_cnw" value="${build}/system/config/db/data-cnw"/>
-    <property name="target" value="cat-site"/>
-    <property name="service" value="${build}/${target}"/>
+  <property name="xconfig" value="system/config/db/cat-site"/>
+  <property name="xconfig_source" value="${build.dir}/system/config/db/cat-site"/>
+  <property name="xconfig_source_cnw" value="${build.dir}/system/config/db/data-cnw"/>
+  <property name="target" value="cat-site"/>
+  <property name="service" value="${build.dir}/${target}"/>
 
-    <target name="all" depends="service"/>
-    <target name="rebuild" depends="clean,all"/>
+  <target name="all" depends="service"/>
+  <target name="rebuild" depends="clean,all"/>
+  
+  <target name="init">
+    <mkdir dir="${build.dir}"/>
+  </target>
 
-    <target name="clean">
-        <delete dir="${build}"/>
-    </target>
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+  </target>
 
-    <target name="service">
-      <mkdir dir="${build}"/>
-      <mkdir dir="${service}"/>
-      <mkdir dir="${service}/${target}"/>
-      <mkdir dir="${xconfig_source}"/>
-      <copy todir="${xconfig_source}" file="collection.xconf"/>
+  <target name="service" depends="init">
+    <mkdir dir="${service}"/>
+    <mkdir dir="${service}/${target}"/>
+    <mkdir dir="${xconfig_source}"/>
+    <copy todir="${xconfig_source}" file="collection.xconf"/>
 
-      <copy todir="${service}">
-	<fileset dir="${service.src}"/>
-      </copy>
-    </target>
+    <copy todir="${service}">
+      <fileset dir="${service.src}"/>
+    </copy>
+  </target>
 
-    <target name="add_data" depends="service">
-      <mkdir dir="${build}/editor"/>
-      <mkdir dir="${build}/data-cnw"/>
+  <target name="add_data" depends="service">
+    <mkdir dir="${build.dir}/editor"/>
+    <mkdir dir="${build.dir}/data-cnw"/>
 
-      <copy todir="${build}/editor">
-	<fileset dir="./editor"/>
-      </copy>
+    <copy todir="${build.dir}/editor">
+      <fileset dir="./editor"/>
+    </copy>
 
-      <copy todir="${build}/data-cnw">
-	<fileset dir="./data"/>
-      </copy>
+    <copy todir="${build.dir}/data-cnw">
+      <fileset dir="./data"/>
+    </copy>
 
-      <copy todir="${xconfig_source_cnw}" file="collection.xconf"/>
-    </target>
+    <copy todir="${xconfig_source_cnw}" file="collection.xconf"/>
+  </target>
 
-
-    <target name="upload" depends="service">
-      <input message="Enter password:" addproperty="server.pass" defaultvalue="">
-	<handler type="secure"/>
-      </input>
-      <exec executable="./utilities/load_exist.pl">
-	<arg line="--suffix ${install} --load build  --target / --host-port ${hostport} --user admin --password ${server.pass}"/>
-      </exec>
-    </target>
+  <target name="upload" depends="service">
+    <input message="Enter password:" addproperty="server.pass" defaultvalue="">
+      <handler type="secure"/>
+    </input>
+    <exec executable="./utilities/load_exist.pl">
+      <arg line="--suffix ${install} --load build  --target / --host-port ${hostport} --user admin --password ${server.pass}"/>
+    </exec>
+  </target>
+  
+  <available file=".git" type="dir" property="git.present"/>
+  
+  <target name="git.revision" description="Store git revision in ${project.version}" if="git.present">
+    <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
+      <arg value="describe"/>
+      <arg value="--tags"/>
+      <arg value="--always"/>
+      <arg value="HEAD"/>
+    </exec>
+    <condition property="project.version" value="${git.revision}" else="unknown">
+      <and>
+        <isset property="git.revision"/>
+        <length string="${git.revision}" trim="yes" length="0" when="greater"/>
+      </and>
+    </condition>
+    <echo message="${project.version}" />
+  </target>
+  
+  <target name="expath-pkg.xml" depends="git.revision" description="build expath-pkg.xml from template">
+    <copy file="expath-pkg.xml.template" tofile="expath-pkg.xml" overwrite="yes">
+      <filterchain>
+        <replacetokens>
+          <token key="repository.version" value="${project.version}" />
+        </replacetokens>
+      </filterchain>
+    </copy>
+  </target>
+  
+  <target name="xar" depends="init,expath-pkg.xml">
+    <zip destfile="${build.dir}/${ant.project.name}-${project.version}.xar">
+      <fileset dir=".">
+        <include name="**/*.*"/>
+        <exclude name="${build.dir}/**"/>
+        <exclude name="build.xml"/>
+        <exclude name="Dockerfile"/>
+        <exclude name=".gitignore"/>
+        <exclude name=".git"/>
+        <exclude name=".github/**"/>
+        <exclude name=".dockerignore"/>
+        <exclude name="docker-compose.yml"/>
+        <exclude name="*build.properties"/>
+        <exclude name="*.template"/>
+      </fileset>
+    </zip>
+  </target>
 
 </project>
