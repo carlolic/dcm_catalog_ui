@@ -27,7 +27,7 @@ declare variable $mode   := request:get-parameter("mode","navigation") cast as x
 
 declare variable $vocabulary  := doc(concat($config:cat-site-root,"/",$coll,"/keywords.xml"));
 (: declare variable $database := concat("/db/cat-site/",$coll,"/data"); :)
-declare variable $database := concat("/db/data-",$coll);
+declare variable $database := $config:data-root;
 declare variable $html     := doc(concat($config:cat-site-root,"/",$coll,"/navigation.html"));
 declare variable $from     := ($page - 1) * $number + 1;
 declare variable $to       :=  $from      + $number - 1;

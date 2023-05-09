@@ -25,8 +25,8 @@ declare variable $language := request:get-parameter("language", "");
 declare variable $score    := request:get-parameter("score", "");
 
 declare variable $coll     := request:get-parameter("c","") cast as xs:string;
-declare variable $database := concat("/db/data-",$coll,"/");
-declare variable $xsl      := doc("/db/cat-site/style/transforms/mei_to_html_public.xsl");
+declare variable $database := $config:data-root;
+declare variable $xsl      := doc(concat($config:cat-site-root,"/style/transforms/mei_to_html_public.xsl"));
 
 let $list := 
 for $doc in collection($database)

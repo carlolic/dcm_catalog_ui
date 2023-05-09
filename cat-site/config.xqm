@@ -36,10 +36,16 @@ declare variable $config:app-root as xs:string :=
         else
             $rawPath
     return
-        substring-before($modulePath, "/modules")
+        substring-before($modulePath, "/cat-site")
 ;
 
+(:
+ : hard coded reference to the default location.
+ : that should be improved!
+ :)
+declare variable $config:data-root as xs:string := '/db/apps/mermeid-data';
 
-declare variable $config:repo-descriptor as element(repo:meta) := doc(concat($config:app-root, "/repo.xml"))/repo:meta;
-declare variable $config:data-root as xs:string := $config:app-root || '/data';
+(:
+ : root collection of the XQuery modules and the project specific subcollections
+ :)
 declare variable $config:cat-site-root as xs:string := $config:app-root || '/cat-site';
