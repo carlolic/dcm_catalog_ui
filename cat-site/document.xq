@@ -25,7 +25,7 @@ declare variable $host     := "localhost";
 declare variable $language := request:get-parameter("language", "");
 declare variable $score    := request:get-parameter("score", "");
 
-declare variable $coll     := request:get-parameter("c","") cast as xs:string;
+declare variable $coll     := request:get-parameter("c",$config:default-profile) cast as xs:string;
 declare variable $database := $config:data-root;
 declare variable $xsl      := doc(concat($config:cat-site-root,"/style/transforms/mei_to_html_public.xsl"));
 

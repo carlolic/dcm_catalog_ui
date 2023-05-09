@@ -18,7 +18,7 @@ import module namespace config="https://github.com/peterstadler/dcm_catalog_ui/c
 
 declare option exist:serialize "method=xml media-type=text/html"; 
 
-declare variable $coll   := request:get-parameter("c","") cast as xs:string;
+declare variable $coll   := request:get-parameter("c",$config:default-profile) cast as xs:string;
 declare variable $genre  := request:get-parameter("genre","") cast as xs:string;
 declare variable $query  := request:get-parameter("query","");
 declare variable $page   := request:get-parameter("page", "1") cast as xs:integer;

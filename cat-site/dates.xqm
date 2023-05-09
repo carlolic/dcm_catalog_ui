@@ -1,7 +1,9 @@
 xquery version "1.0" encoding "UTF-8";
 
-module  namespace          dat="http://kb.dk/these/dates";
-declare variable $d:coll   := request:get-parameter("c","") cast as xs:string;
+module  namespace d="http://kb.dk/these/dates";
+
+import module namespace config="https://github.com/peterstadler/dcm_catalog_ui/config" at "./config.xqm";
+declare variable $d:coll   := request:get-parameter("c",$config:default-profile) cast as xs:string;
 
 
 declare function dat:not_before() as xs:integer {

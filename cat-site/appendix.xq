@@ -6,7 +6,7 @@ import module namespace layout="http://kb.dk/this/app/layout" at "./layout.xqm";
 declare option exist:serialize "method=xml media-type=text/html;charset=UTF-8";
 declare variable $mode   := request:get-parameter("mode","appendix") cast as xs:string;
 
-declare variable $coll     := request:get-parameter("c","") cast as xs:string;
+declare variable $coll     := request:get-parameter("c",$config:default-profile) cast as xs:string;
 let $html := doc(concat($config:cat-site-root,"/",$coll,"/appendix.html"))
 
 

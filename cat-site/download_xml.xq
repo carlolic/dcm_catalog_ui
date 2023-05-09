@@ -12,7 +12,7 @@ declare namespace ft="http://exist-db.org/xquery/lucene";
 
 declare option exist:serialize "method=xml media-type=text/xml"; 
 declare variable $document := request:get-parameter("doc", "");
-declare variable $coll     := request:get-parameter("c","") cast as xs:string;
+declare variable $coll     := request:get-parameter("c",$config:default-profile) cast as xs:string;
 declare variable $database := $config:data-root;
 
 let $list := 

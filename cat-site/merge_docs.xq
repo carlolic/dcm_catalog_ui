@@ -3,6 +3,7 @@ xquery version "1.0" encoding "UTF-8";
 
 import module namespace loop="http://kb.dk/this/getlist" at "./main_loop.xqm";
 
+import module namespace config="https://github.com/peterstadler/dcm_catalog_ui/config" at "./config.xqm";
 declare namespace xl="http://www.w3.org/1999/xlink";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace response="http://exist-db.org/xquery/response";
@@ -18,7 +19,7 @@ declare namespace m="http://www.music-encoding.org/ns/mei";
 declare option exist:serialize "method=xml media-type=text/html"; 
 
 declare variable $genre  := request:get-parameter("genre","") cast as xs:string;
-declare variable $coll   := request:get-parameter("c",    "") cast as xs:string;
+declare variable $coll   := request:get-parameter("c",    $config:default-profile) cast as xs:string;
 declare variable $query  := request:get-parameter("query","") cast as xs:string;
 declare variable $page   := request:get-parameter("page", "1") cast as xs:integer;
 declare variable $number := request:get-parameter("itemsPerPage","20") cast as xs:integer;

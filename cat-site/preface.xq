@@ -6,7 +6,7 @@ import module namespace config="https://github.com/peterstadler/dcm_catalog_ui/c
 declare option exist:serialize "method=xml media-type=text/html;charset=UTF-8";
 declare variable $mode   := request:get-parameter("mode","preface") cast as xs:string;
 
-declare variable $coll     := request:get-parameter("c","") cast as xs:string;
+declare variable $coll     := request:get-parameter("c",$config:default-profile) cast as xs:string;
 let $html := doc(concat($config:cat-site-root,"/",$coll,"/preface.html"))
 
 

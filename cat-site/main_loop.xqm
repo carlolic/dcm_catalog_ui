@@ -13,7 +13,7 @@ declare namespace filter="http://kb.dk/this/app/filter";
 
 declare variable $loop:sortby       := "null,work_number";
 
-declare variable $loop:coll         := request:get-parameter("c","") cast as xs:string;
+declare variable $loop:coll         := request:get-parameter("c",$config:default-profile) cast as xs:string;
 declare variable $loop:vocabulary   := doc(concat($config:cat-site-root,"/",$loop:coll,"/keywords.xml"));
 
 declare variable $loop:identifiers := doc(concat($config:cat-site-root,"/collections.xml"));

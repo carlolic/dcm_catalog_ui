@@ -15,7 +15,7 @@ declare variable $filter:page        := request:get-parameter("page",   "1") cas
 declare variable $filter:number      := request:get-parameter("itemsPerPage","20") cast as xs:integer;
 declare variable $filter:genre       := request:get-parameter("genre", "") cast as xs:string;
 declare variable $filter:uri         := "";
-declare variable $filter:coll        := request:get-parameter("c","") cast as xs:string;
+declare variable $filter:coll        := request:get-parameter("c",$config:default-profile) cast as xs:string;
 declare variable $filter:identifiers := doc(concat($config:cat-site-root,"/collections.xml"));
 declare variable $filter:collection   := $filter:identifiers//*[m:title=$filter:coll]/m:identifier;
 declare variable $filter:vocabulary  := doc(concat($config:cat-site-root,"/",$filter:coll,"/keywords.xml"));

@@ -8,7 +8,7 @@ declare namespace  request="http://exist-db.org/xquery/request";
 declare namespace  h="http://www.w3.org/1999/xhtml";
 declare namespace  m="http://www.music-encoding.org/ns/mei";
 
-declare variable $layout:coll     := request:get-parameter("c","") cast as xs:string;
+declare variable $layout:coll     := request:get-parameter("c",$config:default-profile) cast as xs:string;
 
 declare function layout:head($title as xs:string,
                              $additions as node()*,
