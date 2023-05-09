@@ -41,7 +41,7 @@ let $c := $list//m:fileDesc/m:seriesStmt/m:identifier[@type="file_collection"][1
     so we need to use the following workaround :)
 let $work_number := $list//m:meiHead/m:workList/m:work[1]/m:identifier/@label[.=$c]/../string()    
 let $title := $list//m:workList/m:work[1]/m:title[string()][not(@type/string())][1]/string()
-let $html := doc(concat("/db/cat-site/",$coll,"/document.html"))
+let $html := doc(concat($config:cat-site-root,"/",$coll,"/document.html"))
 let $head_title := 
    fn:concat($title," – ",$c," ",$work_number," – ",$html//h:title/text())
 let $verovio := if($list//m:incip/m:score/* or normalize-space(//m:incipCode[@form='pae' or @form='PAE' or @form='plaineAndEasie']/text())) then true() else false()
