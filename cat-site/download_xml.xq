@@ -1,5 +1,6 @@
 xquery version "1.0" encoding "UTF-8";
 
+import module namespace config="https://github.com/peterstadler/dcm_catalog_ui/config" at "./config.xqm";
 declare namespace transform="http://exist-db.org/xquery/transform";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace response="http://exist-db.org/xquery/response";
