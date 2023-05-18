@@ -1,4 +1,4 @@
-var types = ["CNW", "HartW", "NWGW", "SchW", "Demo", "Opus", "FS"];
+var types = ["CNW", "HartW", "NWGW", "SchW", "TLM", "Demo", "Opus", "FS"];
 
 function swap_num_type() {
     var type_id     = document.getElementById("scheme_selector").value;

@@ -111,6 +111,7 @@ declare variable $database := "/db/dcm";
                    <option value="DCM">DCM</option>
                    <option value="GW">GW</option>
                    <option value="SchM">SchM</option>
+                   <option value="TLM">TLM</option>
                    <option value="TEST">TEST</option>
                  </select>
     	       </td>
