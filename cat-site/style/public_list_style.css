@@ -489,7 +489,7 @@ a:hover.abbr .expan {
 
 /* main categories */
 
-.stage_music, .instrumental_music, .vocal_music, .text
+.stage_music, .instrumental_music, .vocal_music, .text, .kantate
                             { background-color: #fff;
                               color: #000; }
 
@@ -542,6 +542,9 @@ a:hover.abbr .expan {
                               color: #fff; }
 
 .song                       { background-color: #fc495e;
+                              color: #fff; }
+
+.mlg                        { background-color: #fc495e;
                               color: #fff; }
 
 /* Print style rules */
