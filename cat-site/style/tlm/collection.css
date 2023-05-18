@@ -1,0 +1,16 @@
+/* Collection-specific colors */
+body {
+    background-color: #445566;
+}
+
+/* Header and footer */
+#all {
+    background-color: #445566;
+}
+
+/* Top menu */
+#menu a:hover, #menu .selected {
+    background-color: #778899;
+}
+
+
