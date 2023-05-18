@@ -48,7 +48,7 @@ declare variable $config:data-root as xs:string := '/db/apps/mermeid-data';
 (:
  : declare a default profile to use if no request parameter is given
  :)
-declare variable $config:default-profile as xs:string := 'cnw';
+declare variable $config:default-profile as xs:string := 'tlm';
 
 (:
  : root collection of the XQuery modules and the project specific subcollections
